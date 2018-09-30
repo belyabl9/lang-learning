@@ -1,0 +1,13 @@
+composer ; композитор
+conductor ; дирижёр
+musician ; музыкант
+soloist ; солист
+virtuoso ; виртуоз
+minstrel group  ; исполнители негритянских мелодий
+band ; группа музыкантов
+orchestra ; оркестр
+flutist ; флейтист
+guitarist ; гитарист
+tambourine player ; бубенщик
+pianist  ; пианист
+songwriter ; автор текста песен

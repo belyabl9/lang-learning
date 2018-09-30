@@ -1,0 +1,98 @@
+server:
+  port: 8443
+  ssl:
+    key-store: keystore.p12
+    key-store-password:
+    key-store-type: PKCS12
+    key-alias: tomcat
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  profiles:
+    active: dev
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 20MB
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+facebook:
+  client:
+    clientId:
+    clientSecret:
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://graph.facebook.com/me
+
+google:
+  client:
+    clientId:
+    clientSecret:
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    clientAuthenticationScheme: form
+    scope: profile email
+  resource:
+    userInfoUri:  https://www.googleapis.com/oauth2/v3/userinfo
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:h2:./langlearningdb;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:    
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true

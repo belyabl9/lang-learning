@@ -1,0 +1,19 @@
+table.dataTable thead .sorting_asc {
+    background-image: url("/images/up_arrow.png");
+}
+
+table.dataTable thead .sorting_desc {
+    background-image: url("/images/bottom_arrow.png");
+}
+
+table.dataTable thead .sorting_asc:after {
+    content: "";
+}
+
+table.dataTable thead .sorting_desc:after {
+    content: "";
+}
+
+table.dataTable thead .sorting:after {
+    content: "";
+}

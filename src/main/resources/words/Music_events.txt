@@ -1,0 +1,5 @@
+concert ; концерт
+recital ; сольный концерт 
+jam session ; джем сэшн
+festival ; фестиваль
+competition ; конкурс

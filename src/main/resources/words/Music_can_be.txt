@@ -1,0 +1,25 @@
+inspiring ; вдохновляющая
+provoking ; досадная
+uplifting ; радостная
+soulful ; задушевная
+pure ; безупречная
+jazzy ; оживлённая 
+breathy ; с придыханием
+powerful ; яркая
+upbeat ; оживлённая, оптимистичная
+sultry ; страстная
+evocative ; выразительная
+lush ; насыщенная
+seductive ; чарующая 
+soothing ; успокаивающая
+appealing ; трогательная
+enchanting ; очаровательная
+sweet ; мелодичная
+funereal ; траурная, мрачная
+scratchy ; пискливая
+moody ; унылая
+silly ; простая, нелепая
+raspy ; резкая
+somber ; мрачная
+superficial ; поверхностная
+irritating ; раздражающая

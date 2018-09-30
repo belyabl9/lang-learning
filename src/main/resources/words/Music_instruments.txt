@@ -1,0 +1,22 @@
+violin ; скрипка
+cello ; виолончель
+bass ; бас-гитара
+harp ; арфа
+flute ; флейта
+clarinet ; кларнет
+bassoon ; фагот
+trumpet ; труба
+French horn ;  валторна
+tuba ; туба
+percussion ; ударные инструменты 
+piano ; фортепьяно
+grand piano ; рояль
+accordion ; аккордеон
+guitar ; гитара
+saxophone ; саксофон
+synthesizer ; синтезатор
+cymbals  ; муз.тарелки
+kettle-drum  ; литавры
+drum ; барабан
+tambourine ; бубен
+xylophone ; ксилофон

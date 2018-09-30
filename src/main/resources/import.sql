@@ -1,0 +1,2 @@
+insert into user (id, enabled, login, name, password) values (1, true, 'admin', 'admin', '$2a$10$3wmA5vNtCi7liYg.UskCW.HLZ/PosbDogjrxlenLKR3VV5V/v601u');
+insert into user_role (id, name, user_id) values (1, 'ADMIN', 1);

@@ -1,0 +1,5 @@
+tape-recorder ; магнитофон
+tuner ; механизм настройки
+amplifier ; усилитель
+player ;  проигрыватель
+equalizer ; эквалайзер

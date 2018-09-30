@@ -1,0 +1,23 @@
+body {
+    /*background: url(/images/welcome.jpg) round;*/
+    /*background: url(/images/home-background.svg) no-repeat;*/
+    /*background-size: 100%;*/
+    
+    
+}
+
+ul .features {
+    list-style-type: disc;
+    text-align: left;
+}
+
+.features li {
+    margin: 5px;
+    font-weight: bold;
+}
+
+.intro-image {
+    max-width:100%;
+    max-height:100%;
+}
+
