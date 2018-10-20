@@ -1,5 +1,15 @@
 <h1>Language learning</h1>
 
+![img1](https://user-images.githubusercontent.com/6876210/47258669-39d9c480-d4a7-11e8-8c35-cbc4d613a5dd.png)
+
+<h4>Create categories of words</h4>
+
+![img2](https://user-images.githubusercontent.com/6876210/47258670-3f370f00-d4a7-11e8-9489-c8918b49094a.png)
+
+<h4>Learn them in a quiz form</h4>
+
+![img3](https://user-images.githubusercontent.com/6876210/47258672-4231ff80-d4a7-11e8-98c3-3ebf371ff0c4.png)
+
 The project is aimed to help English learners to improve their vocabulary.
 People which were learning foreign languages know that a strategy with just writing down lists of unknown words doesn't work.
 All it can give is a storage of these words in a short-term memory, i.e. they disappear from a memory in a short period of time.
