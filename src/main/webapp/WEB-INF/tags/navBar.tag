@@ -20,16 +20,23 @@
         <div class="collapse navbar-collapse" id="basicExampleNav">
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item ${activeMenuItem eq 'categories' ? "active" : ""}">
-                    <a id="categoriesLink" class="nav-link" href="/categories">
-                        <spring:message code="categories" />
+                <li class="nav-item ${activeMenuItem eq 'language' ? "active" : ""}">
+                    <a id="languageLink" class="nav-link" href="/language">
+                        <spring:message code="language" />${user.learningLang != null ? " [ ".concat(user.learningLang.name()).concat(" ]") : ""}
                     </a>
                 </li>
-                <li class="nav-item ${activeMenuItem eq 'activities' ? "active" : ""}">
-                    <a id="activitiesLink" class="nav-link" href="/activities">
-                        <spring:message code="activities" />
-                    </a>
-                </li>
+                <c:if test="${not empty user.learningLang}">
+                    <li class="nav-item ${activeMenuItem eq 'categories' ? "active" : ""}">
+                        <a id="categoriesLink" class="nav-link" href="/categories">
+                            <spring:message code="categories" />
+                        </a>
+                    </li>
+                    <li class="nav-item ${activeMenuItem eq 'activities' ? "active" : ""}">
+                        <a id="activitiesLink" class="nav-link" href="/activities">
+                            <spring:message code="activities" />
+                        </a>
+                    </li>
+                </c:if>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

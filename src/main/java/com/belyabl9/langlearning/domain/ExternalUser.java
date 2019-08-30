@@ -1,9 +1,14 @@
 package com.belyabl9.langlearning.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Entity
+@Getter
+@Setter
 public class ExternalUser extends User implements Serializable {
     
     private String externalId;
@@ -22,21 +27,5 @@ public class ExternalUser extends User implements Serializable {
 
     public boolean isAdmin() {
         return false;
-    }
-
-    public String getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
-    }
-
-    public SocialProvider getSocialProvider() {
-        return socialProvider;
-    }
-
-    public void setSocialProvider(SocialProvider socialProvider) {
-        this.socialProvider = socialProvider;
     }
 }

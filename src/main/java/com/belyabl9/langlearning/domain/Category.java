@@ -1,5 +1,9 @@
 package com.belyabl9.langlearning.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -7,14 +11,23 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "name"})})
+@Getter
+@Setter
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"user_id", "name"}) })
 public class Category extends BaseEntity implements Serializable {
     @NotBlank
     private String name;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @org.hibernate.annotations.OnDelete(
+            action = OnDeleteAction.CASCADE
+    )
     private List<Word> words;
 
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    private Language lang;
+    
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -39,16 +52,11 @@ public class Category extends BaseEntity implements Serializable {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Category(String name, List<Word> words, Language lang, User user) {
         this.name = name;
-    }
-
-    public List<Word> getWords() {
-        return words;
+        this.words = words;
+        this.lang = lang;
+        this.user = user;
     }
 
     public void setWords(List<Word> words) {
@@ -59,26 +67,10 @@ public class Category extends BaseEntity implements Serializable {
 //        }
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
     public boolean isBuiltIn() {
         return user == null;
     }
-
-    public String getSharedReference() {
-        return sharedReference;
-    }
-
-    public void setSharedReference(String sharedReference) {
-        this.sharedReference = sharedReference;
-    }
-
+    
     public boolean isShared() {
         return sharedReference != null;
     }

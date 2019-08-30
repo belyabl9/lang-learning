@@ -3,6 +3,7 @@ package com.belyabl9.langlearning.service;
 import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.User;
 import com.belyabl9.langlearning.domain.Word;
+import com.belyabl9.langlearning.exception.LangNotSelectedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,18 +37,21 @@ public interface CategoryService {
 
     /**
      * Returns categories created by the specified user
+     * @throws LangNotSelectedException
      */
     @NotNull
     List<Category> findUserCategories(@NotNull User user);
 
     /**
      * @throws EntityExistsException
+     * @throws LangNotSelectedException
      */
     @NotNull
     Category insert(@NotNull Category category);
 
     /**
      * @throws EntityExistsException
+     * @throws LangNotSelectedException
      */
     @NotNull
     Category update(@NotNull Category category);

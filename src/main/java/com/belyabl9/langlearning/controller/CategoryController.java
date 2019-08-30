@@ -5,6 +5,7 @@ import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.User;
 import com.belyabl9.langlearning.dto.CategoryDto;
 import com.belyabl9.langlearning.exception.EntityExistsException;
+import com.belyabl9.langlearning.exception.LangNotSelectedException;
 import com.belyabl9.langlearning.service.*;
 import com.belyabl9.langlearning.service.impl.importer.ActionOnDuplicate;
 import com.belyabl9.langlearning.service.impl.importer.ImporterSettings;
@@ -65,9 +66,12 @@ class CategoryController {
     public AjaxResponseBody addCategory(@RequestBody AjaxAddCategoryRequest addCategoryRequest, Principal principal) {
         User user = addCategoryRequest.getUserId() != null ? authService.extractUserFromAuthInfo(principal) : null;
         try {
-            categoryService.insert(new Category(addCategoryRequest.getCategoryName(), Collections.emptyList(), user));
+            categoryService.insert(new Category(addCategoryRequest.getCategoryName(), Collections.emptyList(), user.getLearningLang(), user));
         } catch (EntityExistsException e) {
             return AjaxResponseBody.failure("The category with the specified name already exists.");
+        } catch (LangNotSelectedException e) {
+            LOG.error("Can not add a category. The user has not selected a language to learn.", e);
+            return AjaxResponseBody.failure("Can not add a category. The user has not selected a language to learn.");
         } catch (Exception e) {
             LOG.error("Can not add a category. Please try again", e);
             return AjaxResponseBody.failure("Can not add a category. Please try again");

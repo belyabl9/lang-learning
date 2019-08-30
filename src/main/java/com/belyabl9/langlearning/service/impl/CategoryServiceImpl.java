@@ -4,6 +4,7 @@ import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.User;
 import com.belyabl9.langlearning.domain.Word;
 import com.belyabl9.langlearning.exception.EntityExistsException;
+import com.belyabl9.langlearning.exception.LangNotSelectedException;
 import com.belyabl9.langlearning.repository.CategoryRepository;
 import com.belyabl9.langlearning.repository.UserRepository;
 import com.belyabl9.langlearning.service.CategoryService;
@@ -21,7 +22,6 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final WordService wordService;
@@ -53,13 +53,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findUserCategories(@NonNull User user) {
-        return categoryRepository.findAllByUser(user);
+        if (user.getLearningLang() == null) {
+            throw new LangNotSelectedException("The user has not selected a language to learn.");
+        }
+        return categoryRepository.findAllByUserAndLang(user, user.getLearningLang());
     }
 
     @Override
     public Category insert(@NonNull Category category) {
         if (exists(category.getName(), category.getUser())) {
             throw new EntityExistsException();
+        }
+        if (category.getLang() == null) {
+            throw new LangNotSelectedException("The user has not selected a language to learn.");
         }
         return categoryRepository.save(category);
     }
@@ -68,6 +74,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Category update(@NonNull Category category) {
         if (exists(category.getName(), category.getUser())) {
             throw new EntityExistsException();
+        }
+        if (category.getLang() == null) {
+            throw new LangNotSelectedException("The user has not selected a language to learn.");
         }
         return categoryRepository.save(category);
     }
@@ -129,7 +138,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void moveWords(@NonNull List<Word> words, @NonNull Category category) {
         for (Word word : ImmutableList.copyOf(words)) {
-            if (word.getCategory().getId() == category.getId()) {
+            if (word.getCategory().getId().equals(category.getId())) {
                 throw new IllegalArgumentException("Can not move words which are already related to this category.");
             }
             category.getWords().add(copyWord(word, category));
@@ -141,7 +150,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void copyWords(@NonNull List<Word> words, @NonNull Category category) {
         for (Word word : words) {
-            if (word.getCategory().getId() == category.getId()) {
+            if (word.getCategory().getId().equals(category.getId())) {
                 throw new IllegalArgumentException("Can not copy words which are already related to this category.");
             }
             category.getWords().add(copyWord(word, category));

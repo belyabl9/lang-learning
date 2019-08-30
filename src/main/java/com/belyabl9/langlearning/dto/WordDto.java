@@ -2,12 +2,12 @@ package com.belyabl9.langlearning.dto;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Collection;
 
 public @Data class WordDto {
     private final long id;
     private final String original;
     private final String translation;
-    private final List<String> usageExamples;
+    private final Collection<String> usageExamples;
     private final String associationImgUrl;
 }

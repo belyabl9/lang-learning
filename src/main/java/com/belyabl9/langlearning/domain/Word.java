@@ -1,16 +1,21 @@
 package com.belyabl9.langlearning.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id", "original"})})
+@Getter
+@Setter
 public class Word extends BaseEntity implements Serializable, Comparable<Word> {
     @NotBlank
     private String original;
@@ -35,7 +40,7 @@ public class Word extends BaseEntity implements Serializable, Comparable<Word> {
     @ElementCollection
     @CollectionTable(name="Sentences", joinColumns=@JoinColumn(name="word_id"))
     @Column(name="sentence")
-    private List<String> sentenceExamples;
+    private Collection<String> sentenceExamples;
 
     public Word() {}
 
@@ -58,62 +63,6 @@ public class Word extends BaseEntity implements Serializable, Comparable<Word> {
         this.priority = priority;
         this.synonyms = synonyms;
         this.sentenceExamples = sentenceExamples;
-    }
-
-    public String getOriginal() {
-        return original;
-    }
-
-    public void setOriginal(String original) {
-        this.original = original;
-    }
-
-    public String getTranslation() {
-        return translation;
-    }
-
-    public void setTranslation(String translation) {
-        this.translation = translation;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public Set<String> getSynonyms() {
-        return synonyms;
-    }
-
-    public void setSynonyms(Set<String> synonyms) {
-        this.synonyms = synonyms;
-    }
-
-    public List<String> getSentenceExamples() {
-        return sentenceExamples;
-    }
-
-    public void setSentenceExamples(List<String> sentenceExamples) {
-        this.sentenceExamples = sentenceExamples;
-    }
-
-    public Image getAssociationImg() {
-        return associationImg;
-    }
-
-    public void setAssociationImg(Image associationImg) {
-        this.associationImg = associationImg;
     }
 
     @Override

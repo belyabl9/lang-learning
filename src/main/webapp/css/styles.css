@@ -239,3 +239,7 @@ input:checked + .slider:before {
     padding: 10px;
     margin: 0px;
 }
+
+.langSelect {
+    text-transform: capitalize;
+}
