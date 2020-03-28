@@ -18,4 +18,11 @@ public interface WordImporterService {
      */
     @NotNull
     ImporterStatus importCategoryWords(@NotNull Category category, @NotNull InputStream inputStream, @NotNull ImporterSettings importerSettings);
+
+    /**
+     * Imports words to a category from an input stream.
+     * @return a status of a performed import 
+     */
+    @NotNull
+    ImporterStatus importCategoryWords(@NotNull Category category, @NotNull InputStream inputStream);
 }

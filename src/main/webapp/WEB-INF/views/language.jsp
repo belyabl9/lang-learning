@@ -32,7 +32,7 @@
                         </c:forEach>
                     </select>
                     <button id="changeLangBtn" class="btn btn-primary">
-                        <spring:message code="save" />
+                        <spring:message code="select" />
                     </button>
                 </form>
             </div>

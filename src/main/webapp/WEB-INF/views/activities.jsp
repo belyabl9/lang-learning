@@ -67,14 +67,28 @@
                 <tbody>
                     <tr>
                         <td>
-                            <a class="btn" href="/learning/word/setup" style="background-color: #78bbf5;">
-                                <spring:message code="lang-learning-activity-name" />
+                            <a class="btn" href="/learning/cards/setup" style="background-color: #78bbf5;">
+                                <spring:message code="learning-cards-activity-name" />
                             </a>
                         </td>
                         <td style="vertical-align: top;">
                             <div class="d-flex" style="flex-wrap: wrap;">
                                 <div>
-                                    <spring:message code="lang-learning-activity-descr" />
+                                    <spring:message code="learning-cards-activity-descr" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a class="btn" href="/learning/quiz/setup" style="background-color: #78bbf5;">
+                                <spring:message code="learning-quiz-activity-name" />
+                            </a>
+                        </td>
+                        <td style="vertical-align: top;">
+                            <div class="d-flex" style="flex-wrap: wrap;">
+                                <div>
+                                    <spring:message code="learning-quiz-activity-descr" />
                                 </div>
                                 <div>
                                     <img src="/images/word-learning-scheme.png" style="width: 100%;" />

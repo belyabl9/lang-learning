@@ -119,5 +119,7 @@ public interface CategoryService {
      */
     @Nullable
     Category findByReference(@NotNull String reference);
+    
+    String export(@NotNull Category category);
 
 }

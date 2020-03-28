@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -36,7 +37,7 @@
             
             <c:if test="${not shared and (user.isAdmin() or not category.isBuiltIn())}">
                 <div class="d-flex">
-                    <button class="btn btn-primary" style="margin-left: 0px;" data-toggle="modal" data-target="#newWordForm">
+                    <button class="btn btn-primary" style="margin-left: 0px; min-width: 200px;" data-toggle="modal" data-target="#newWordForm">
                         <i class="fa fa-plus-square-o"></i> <spring:message code="word.add" />
                     </button>
                     <div id="actionsOnWordsContainer" class="d-none">
@@ -48,7 +49,13 @@
                         </button>
                     </div>
                 </div>
-
+                <c:if test="${fn:length(category.words) gt 0}">
+                    <div>
+                        <button id="exportCategoryBtn" class="btn btn-primary" style="margin-left: 0; min-width: 200px;" data-toggle="modal">
+                            <i class="fa fa-plus-square-o"></i> <spring:message code="export" />
+                        </button>
+                    </div>
+                </c:if>
                 <div id="accordion" class="accordion">
                     <div class="card mb-0" style="margin-top:15px; background-color: #4285f4; color:white;">
                         <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
@@ -760,6 +767,35 @@
                                     location.reload();
                                 }
                             });
+                        }
+                    });
+                });
+                
+                var triggerDownload = function(response, fileName, fileType) {
+                    var blob = new Blob([response], { type: fileType });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);  
+                };
+                
+                $('#exportCategoryBtn').on('click', function () {
+                    var data = {
+                        categoryId: ${categoryId}
+                    };
+                    $.ajax({
+                        type : "POST",
+                        url : "/categories/export",
+                        data : data,
+                        timeout : 100000,
+                        success : function(data) {
+                            triggerDownload(data, '${category.name}.txt', 'application/txt');
+                        },
+                        error : function(e) {
+                            console.error("Could not download a file: ", e);
                         }
                     });
                 });

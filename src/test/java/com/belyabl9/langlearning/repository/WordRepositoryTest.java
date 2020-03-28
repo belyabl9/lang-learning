@@ -2,6 +2,7 @@ package com.belyabl9.langlearning.repository;
 
 import com.belyabl9.langlearning.TestConfiguration;
 import com.belyabl9.langlearning.domain.Category;
+import com.belyabl9.langlearning.domain.Language;
 import com.belyabl9.langlearning.domain.Word;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -36,7 +37,7 @@ public class WordRepositoryTest {
     
     @Test
     public void findAllByCategoryOrderByPriority() throws Exception {
-        Category categoryOne = new Category("categoryOne");
+        Category categoryOne = new Category("categoryOne", Language.ENGLISH);
         categoryOne.setWords(ImmutableList.of(
                 new Word("word1", "translation1", categoryOne, 5),
                 new Word("word2", "translation2", categoryOne, 3),
@@ -44,7 +45,7 @@ public class WordRepositoryTest {
         ));
         categoryOne = entityManager.persistAndFlush(categoryOne);
         
-        Category categoryTwo = new Category("categoryTwo");
+        Category categoryTwo = new Category("categoryTwo", Language.ENGLISH);
         categoryTwo.setWords(ImmutableList.of(
                 new Word("word4", "translation4", categoryTwo, 5),
                 new Word("word5", "translation5", categoryTwo, 3),
@@ -64,7 +65,7 @@ public class WordRepositoryTest {
 
     @Test
     public void incrementPriority() throws Exception {
-        Category category = new Category("category");
+        Category category = new Category("category", Language.ENGLISH);
         Word word = new Word("word1", "translation1", category);
         category.setWords(ImmutableList.of(word));
         category = entityManager.persistAndFlush(category);
@@ -82,7 +83,7 @@ public class WordRepositoryTest {
 
     @Test
     public void decrementPriority() throws Exception {
-        Category category = new Category("category");
+        Category category = new Category("category", Language.ENGLISH);
         Word word = new Word("word1", "translation1", category, 5);
         category.setWords(ImmutableList.of(word));
         category = entityManager.persistAndFlush(category);

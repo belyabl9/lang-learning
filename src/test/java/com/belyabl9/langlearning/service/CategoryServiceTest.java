@@ -3,6 +3,7 @@ package com.belyabl9.langlearning.service;
 import com.belyabl9.langlearning.TestConfiguration;
 import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.InternalUser;
+import com.belyabl9.langlearning.domain.Language;
 import com.belyabl9.langlearning.domain.User;
 import com.belyabl9.langlearning.domain.Word;
 import com.belyabl9.langlearning.exception.EntityExistsException;
@@ -39,7 +40,7 @@ public class CategoryServiceTest {
         User user = userService.insert(new InternalUser("Ivan Ivanov", "ivan.ivanov@gmail.com", "login", "password", true));
 
         Category categoryOne = categoryService.insert(
-                new Category("categoryOne", new ArrayList<>(), user)
+                new Category("categoryOne", new ArrayList<>(), Language.ENGLISH, user)
         );
 
         Category category = categoryService.findById(categoryOne.getId());
@@ -54,10 +55,10 @@ public class CategoryServiceTest {
         User user = userService.insert(new InternalUser("Ivan Ivanov", "ivan.ivanov@gmail.com", "login", "password", true));
         List<Category> categories = ImmutableList.of(
                 // built-in categories
-                new Category("builtInCategoryOne", new ArrayList<>()),
-                new Category("builtInCategoryTwo", new ArrayList<>()),
+                new Category("builtInCategoryOne", new ArrayList<>(), Language.ENGLISH),
+                new Category("builtInCategoryTwo", new ArrayList<>(), Language.ENGLISH),
                 // user categories
-                new Category("userCategoryOne", new ArrayList<>(), user)
+                new Category("userCategoryOne", new ArrayList<>(), Language.ENGLISH, user)
         );
         for (Category category : categories) {
             categoryService.insert(category);
@@ -73,12 +74,13 @@ public class CategoryServiceTest {
     @Test
     public void findUserCategories() throws Exception {
         User user = userService.insert(new InternalUser("Ivan Ivanov", "ivan.ivanov@gmail.com", "login", "password", true));
+        user.setLearningLang(Language.ENGLISH);
         List<Category> categories = ImmutableList.of(
                 // built-in categories
-                new Category("builtInCategoryOne", new ArrayList<>()),
-                new Category("builtInCategoryTwo", new ArrayList<>()),
+                new Category("builtInCategoryOne", new ArrayList<>(), Language.ENGLISH),
+                new Category("builtInCategoryTwo", new ArrayList<>(), Language.ENGLISH),
                 // user categories
-                new Category("userCategoryOne", new ArrayList<>(), user)
+                new Category("userCategoryOne", new ArrayList<>(), Language.ENGLISH, user)
         );
         for (Category category : categories) {
             categoryService.insert(category);
@@ -154,7 +156,7 @@ public class CategoryServiceTest {
     
     private Category makeCategory(String categoryName, User user) {
         Category category = categoryService.insert(
-                new Category(categoryName, new ArrayList<>(), user)
+                new Category(categoryName, new ArrayList<>(), Language.ENGLISH, user)
         );
 
         wordService.insert(

@@ -8,7 +8,7 @@
 <%@ attribute name="hideLangPanel" type="java.lang.Boolean" %>
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark indigo">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7260b7;">
 
         <a class="navbar-brand" style="border: 1px solid white;border-radius: 25px;padding: 10px;font-weight: bold;background-color: #6675df;" href="/">Language learning</a>
 

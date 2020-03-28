@@ -3,6 +3,7 @@ package com.belyabl9.langlearning.service.impl;
 import com.belyabl9.langlearning.TestConfiguration;
 import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.InternalUser;
+import com.belyabl9.langlearning.domain.Language;
 import com.belyabl9.langlearning.domain.User;
 import com.belyabl9.langlearning.domain.Word;
 import com.belyabl9.langlearning.service.CategoryService;
@@ -153,7 +154,7 @@ public class WordImporterServiceImplTest {
         User user = new InternalUser("Test Test", "ivan.ivanov@gmail.com", "login", "password", true);
         user = userService.insert(user);
 
-        Category category = new Category("category", new ArrayList<>(), user);
+        Category category = new Category("category", new ArrayList<>(), Language.ENGLISH, user);
         category = categoryService.insert(category);
         return category;
     }

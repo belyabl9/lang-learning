@@ -36,6 +36,9 @@
                         <button id="addCategoryBtn" class="btn btn-primary" style="margin-left: 0px;" onclick="Categories.showAddForm(${user.id});">
                             <i class="fa fa-plus-square-o"></i> <spring:message code="category.add" />
                         </button>
+                        <button id="importCategoryBtn" class="btn btn-primary" style="margin-left: 10px;" onclick="Categories.showImportForm(${user.id});">
+                            <i class="fa fa-plus-square-o"></i> <spring:message code="category.import" />
+                        </button>
                     </div>
                     <t:userCategories categories="${userCategories}" />
                 </div>
@@ -59,6 +62,10 @@
         <t:newCategoryForm />
         <%-- *** --%>
 
+        <%-- Modal form for importing a new category --%>
+        <t:importCategoryForm />
+        <%-- *** --%>
+
         <%-- Modal form for updating the category --%>
         <t:updateCategoryForm />
         <%-- *** --%>
@@ -75,6 +82,11 @@
                     showAddForm: function (userId) {
                         $('#newCategoryUserId').val(userId);
                         $('#newCategoryForm').modal('show');
+                    },
+
+                    showImportForm: function (userId) {
+                        $('#newCategoryUserId').val(userId);
+                        $('#importCategoryFormContainer').modal('show');
                     },
 
                     showUpdateForm: function (id) {
@@ -290,12 +302,82 @@
                     });
                 });
 
+                $("#importCategoryForm").on("submit", function(event) {
+                    event.preventDefault();
+
+                    var data = {};
+                    $.each($( this ).serializeArray(), function (index, fieldObj) {
+                        data[fieldObj.name] = fieldObj.value;
+                    });
+
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        type : "POST",
+                        url : "/categories/import",
+                        data : formData,
+                        timeout : 100000,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success : function(data) {
+                            if (!data.success) {
+                                bootbox.alert({
+                                    message: "<spring:message code='can_not_import_category' />" + data.message,
+                                    callback: function () {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                location.reload();
+                            }
+                        },
+                        error : function(e) {
+                            bootbox.alert({
+                                message: "<spring:message code='can_not_import_category' />" + e,
+                                callback: function () {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    });
+                });
+
                 $("#updateCategoryForm").on("submit", function(event) {
                     event.preventDefault();
 
                     var data = {};
                     $.each($( this ).serializeArray(), function (index, fieldObj) {
                         data[fieldObj.name] = fieldObj.value;
+                    });
+
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "/category/update",
+                        data : JSON.stringify(data),
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if (!data.success) {
+                                bootbox.alert({
+                                    message: "<spring:message code='can_not_update_category' />" + data.message,
+                                    callback: function () {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                location.reload();
+                            }
+                        },
+                        error : function(e) {
+                            bootbox.alert({
+                                message: "<spring:message code='can_not_update_category' />" + e,
+                                callback: function () {
+                                    location.reload();
+                                }
+                            });
+                        }
                     });
                 });
 
@@ -349,6 +431,7 @@
                 };
 
                 labelWorkaroundFunc("categoryNameToAdd", "categoryNameToAddLbl");
+                labelWorkaroundFunc("categoryNameToImport", "categoryNameToImportLbl");
                 labelWorkaroundFunc("categoryNameToUpdate", "categoryNameToUpdateLbl");
                 labelWorkaroundFunc("clonedCategoryName", "clonedCategoryNameLbl");
             } );

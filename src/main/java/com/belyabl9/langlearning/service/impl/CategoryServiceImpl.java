@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (category.getLang() == null) {
             throw new LangNotSelectedException("The user has not selected a language to learn.");
         }
-        return categoryRepository.save(category);
+        return categoryRepository.saveAndFlush(category);
     }
 
     @Override
@@ -88,8 +88,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void remove(@NonNull Category category) {
-        category.getUser().getCategories().remove(category);
-        userRepository.saveAndFlush(category.getUser());
+        if (category.isBuiltIn()) {
+            categoryRepository.delete(category);
+        } else {
+            category.getUser().getCategories().remove(category);
+            userRepository.saveAndFlush(category.getUser());
+        }
     }
 
     @Override
@@ -126,7 +130,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (exists(categoryName, user)) {
             throw new EntityExistsException();
         }
-        Category clonedCategory = new Category(categoryName, new ArrayList<>(), user);
+        Category clonedCategory = new Category(categoryName, new ArrayList<>(), category.getLang(), user);
         for (Word word : category.getWords()) {
             clonedCategory.getWords().add(copyWord(word, clonedCategory));
         }
@@ -156,6 +160,18 @@ public class CategoryServiceImpl implements CategoryService {
             category.getWords().add(copyWord(word, category));
         }
         categoryRepository.save(category);
+    }
+
+    @Override
+    public String export(Category category) {
+        StringBuilder sb = new StringBuilder();
+        for (Word word : category.getWords()) {
+            sb.append(word.getOriginal())
+                    .append(" ; ")
+                    .append(word.getTranslation())
+                    .append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 
     private Word copyWord(@NonNull Word word, @NonNull Category category) {

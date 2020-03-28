@@ -62,7 +62,7 @@ public class WordServiceImpl implements WordService {
             word.setSynonyms(synonyms);
         }
         word = wordRepository.saveAndFlush(word);
-        word.getCategory().getWords().add(word);
+        word.getCategory().addWord(word);
         return word;
     }
 

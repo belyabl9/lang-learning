@@ -23,7 +23,7 @@ public class Word extends BaseEntity implements Serializable, Comparable<Word> {
     private String translation;
     
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id", nullable=false)
     private Category category;
     

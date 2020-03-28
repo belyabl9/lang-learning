@@ -5,7 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<t:page pageTitle="learning_word_setup">
+<t:page pageTitle="learning_cards_setup">
 	<jsp:attribute name="navBar">
         <t:navBar></t:navBar>
     </jsp:attribute>
@@ -20,7 +20,7 @@
     <jsp:body>
 
         <script>
-            var LearningWordSetup = (function() {
+            var LearningCardsSetup = (function() {
 
                 return {
                     start: function () {
@@ -65,7 +65,7 @@
         
         <div>
         
-        <form method="POST" action="/learning/word/start" id="startLearningForm">
+        <form method="POST" action="/learning/cards/start" id="startLearningForm">
             <input id="categoryIds" name="categoryIds[]" type="hidden" />
         </form>
         
@@ -75,7 +75,7 @@
                 <ol class="breadcrumb primary-color">
                     <li class="breadcrumb-item"><a class="white-text" href="/"><spring:message code="home" /></a></li>
                     <li class="breadcrumb-item"><a class="white-text" href="/"><spring:message code="activities" /></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="learning_word_setup" /></li>
+                    <li class="breadcrumb-item active"><spring:message code="learning_cards_setup" /></li>
                 </ol>
             </div>
             
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="d-flex" style="justify-content: flex-end;margin-top: 15px;">
-                            <button class="btn btn-primary" onclick="LearningWordSetup.start();">
+                            <button class="btn btn-primary" onclick="LearningCardsSetup.start();">
                                 <spring:message code="start" />
                             </button>
                         </div>

@@ -32,6 +32,20 @@ public class WordImporterServiceImpl implements WordImporterService {
 
     @Override
     public ImporterStatus importCategoryWords(@NonNull Category category,
+                                              @NonNull InputStream inputStream) {
+        List<Word> words = wordParserService.parse(inputStream);
+        words.forEach(word -> word.setCategory(category));
+
+        List<Long> importedIds = new ArrayList<>();
+        for (Word word : words) {
+            word = wordService.insert(word);
+            importedIds.add(word.getId());
+        }
+        return new ImporterStatus("Imported " + importedIds.size() + " items.");
+    }
+
+    @Override
+    public ImporterStatus importCategoryWords(@NonNull Category category,
                                               @NonNull InputStream inputStream,
                                               @NonNull ImporterSettings importerSettings) {
         List<Word> words = wordParserService.parse(inputStream);

@@ -18,8 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,9 +68,15 @@ class CategoryController {
     @ResponseBody
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
     public AjaxResponseBody addCategory(@RequestBody AjaxAddCategoryRequest addCategoryRequest, Principal principal) {
-        User user = addCategoryRequest.getUserId() != null ? authService.extractUserFromAuthInfo(principal) : null;
+        User user = authService.extractUserFromAuthInfo(principal);
         try {
-            categoryService.insert(new Category(addCategoryRequest.getCategoryName(), Collections.emptyList(), user.getLearningLang(), user));
+            categoryService.insert(
+                    new Category(addCategoryRequest.getCategoryName(),
+                                 Collections.emptyList(),
+                                 user.getLearningLang(),
+                                 addCategoryRequest.getUserId() != null ? user : null
+                    )
+            );
         } catch (EntityExistsException e) {
             return AjaxResponseBody.failure("The category with the specified name already exists.");
         } catch (LangNotSelectedException e) {
@@ -141,6 +151,25 @@ class CategoryController {
     }
 
     @ResponseBody
+    @PostMapping("/categories/import")
+    public AjaxResponseBody importWordsFromFile(@RequestParam("categoryName") String categoryName,
+                                                @RequestParam("categoryWordsFile") MultipartFile categoryWordsFile,
+                                                Principal principal) {
+        User user = authService.extractUserFromAuthInfo(principal);
+        
+        Category category = categoryService.insert(
+                new Category(categoryName, new ArrayList<>(), user.getLearningLang(), user)
+        );
+        try {
+            ImporterStatus importerStatus = wordImporterService.importCategoryWords(category, categoryWordsFile.getInputStream());
+            return new AjaxResponseBody(true, importerStatus.getMessage());
+        } catch (IOException e) {
+            LOG.error("Can not import a category from file.", e);
+            throw new RuntimeException(e);
+        }
+    }
+    
+    @ResponseBody
     @PostMapping("/categories/{categoryId}/words/import")
     public AjaxResponseBody importWordsFromFile(@PathVariable long categoryId,
                                       @RequestParam("wordImportFile") MultipartFile file,
@@ -157,6 +186,29 @@ class CategoryController {
         } catch (IOException e) {
             LOG.error("Can not import words from file.", e);
             throw new RuntimeException(e);
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/categories/export")
+    public byte[] exportCategory(@RequestParam("categoryId") Long categoryId, Principal principal) {
+        User user = authService.extractUserFromAuthInfo(principal);
+
+        Category category = categoryService.findById(categoryId);
+        if (category == null) {
+            throw new RuntimeException("The category with the specified id is not available.");
+        }
+        if (!user.isAdmin() && !category.getUser().getId().equals(user.getId()) ) {
+            throw new RuntimeException("The category must belong to the current user.");
+        }
+
+        try {
+            File file = Files.createTempFile(null, null).toFile();
+            String categoryContent = categoryService.export(category);
+            Files.write(Paths.get(file.getPath()), categoryContent.getBytes());
+            return Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            throw new RuntimeException("Could export a category.", e);
         }
     }
 

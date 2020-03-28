@@ -25,9 +25,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
     line-height: 1;
-    background: #1c92d2;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-color: #ffeeee;
     font-family: 'Open Sans', 'sans-serif';
 }
 ol, ul {
@@ -242,4 +240,53 @@ input:checked + .slider:before {
 
 .langSelect {
     text-transform: capitalize;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #90acec;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card-rotated.flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    /*background-color: #bbb;*/
+    color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+    /*background-color: dodgerblue;*/
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.usageExamples li {
+    color: black;
+    text-align: left;
 }

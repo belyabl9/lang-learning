@@ -7,7 +7,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,13 +20,13 @@ public class Category extends BaseEntity implements Serializable {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @org.hibernate.annotations.OnDelete(
             action = OnDeleteAction.CASCADE
     )
-    private List<Word> words;
+    private List<Word> words = new ArrayList<>();
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Language lang;
     
@@ -40,10 +42,21 @@ public class Category extends BaseEntity implements Serializable {
     public Category(String name) {
         this.name = name;
     }
+
+    public Category(String name, Language lang) {
+        this.name = name;
+        this.lang = lang;
+    }
     
     public Category(String name, List<Word> words) {
         this.name = name;
         this.words = words;
+    }
+
+    public Category(String name, List<Word> words, Language lang) {
+        this.name = name;
+        this.words = words;
+        this.lang = lang;
     }
     
     public Category(String name, List<Word> words, User user) {
@@ -65,6 +78,16 @@ public class Category extends BaseEntity implements Serializable {
 //        } else {
             this.words = words;
 //        }
+    }
+    
+    public void addWord(Word word) {
+        words.add(word);
+        word.setCategory(this);
+    }
+    
+    public void removeWord(Word word) {
+        words.remove(word);
+        word.setCategory(null);
     }
 
     public boolean isBuiltIn() {

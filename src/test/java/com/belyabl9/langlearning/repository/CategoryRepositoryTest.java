@@ -3,6 +3,7 @@ package com.belyabl9.langlearning.repository;
 import com.belyabl9.langlearning.TestConfiguration;
 import com.belyabl9.langlearning.domain.Category;
 import com.belyabl9.langlearning.domain.InternalUser;
+import com.belyabl9.langlearning.domain.Language;
 import com.belyabl9.langlearning.domain.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +40,8 @@ public class CategoryRepositoryTest {
         User user = new InternalUser("Ivan Ivanov", "ivan.ivanov@gmail.com", "login", "password", true);
         user = entityManager.persistAndFlush(user);
 
-        Category moodsCategory = new Category("moods", Collections.emptyList(), user);
-        Category feelingsCategory = new Category("feelings", Collections.emptyList(), user);
+        Category moodsCategory = new Category("moods", Collections.emptyList(), Language.ENGLISH, user);
+        Category feelingsCategory = new Category("feelings", Collections.emptyList(), Language.ENGLISH, user);
         entityManager.persistAndFlush(moodsCategory);
         entityManager.persistAndFlush(feelingsCategory);
 
@@ -54,9 +55,9 @@ public class CategoryRepositoryTest {
         User user = new InternalUser("Ivan Ivanov", "ivan.ivanov@gmail.com", "login", "password", true);
         user = entityManager.persistAndFlush(user);
         
-        Category builtInCategoryOne = new Category("builtInCategoryOne");
-        Category builtInCategoryTwo = new Category("builtInCategoryTwo");
-        Category userCategory = new Category("userCategory", Collections.emptyList(), user);
+        Category builtInCategoryOne = new Category("builtInCategoryOne", Language.ENGLISH);
+        Category builtInCategoryTwo = new Category("builtInCategoryTwo", Language.ENGLISH);
+        Category userCategory = new Category("userCategory", Collections.emptyList(), Language.ENGLISH, user);
         entityManager.persistAndFlush(builtInCategoryOne);
         entityManager.persistAndFlush(builtInCategoryTwo);
         entityManager.persistAndFlush(userCategory);
